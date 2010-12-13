@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Text;
 using Geckosoft.GaspXP.Properties;
@@ -57,12 +59,13 @@ namespace Geckosoft.GaspXP
         public override byte[] GenerateSummaryContent()
         {
         	var sb = new StringBuilder(Resources.Report);
-        	sb.Replace("$Version$", Version);
-        	sb.Replace("$InputFilePath$", InputFilePath);
+			sb.Replace("$Version$", Version);
+			sb.Replace("$InputFilePath$", InputFilePath);
+        	sb.Replace("$DateTime$", DateTime.Now.ToString());
 
 			if (ActiveSuffix == null)
 			{
-				GenerateInvalidSuffixSummaryContent(sb);
+				UnhandledContent(sb);
 			}else
 			{
 				sb.Replace("$Output$", "Preprocessing complete.<br /><br />" + ((LastException == null) ? "" : "Exception:  " +LastException.ToString()));
@@ -76,7 +79,7 @@ namespace Geckosoft.GaspXP
 			get { return typeof (GaspProcessor).Assembly.GetName().Version.ToString(); }
 		}
 
-		protected virtual void GenerateInvalidSuffixSummaryContent(StringBuilder sb)
+		protected virtual void UnhandledContent(StringBuilder sb)
 		{
 			sb.Replace("$Output$", "Unhandled file extension. Valid extensions: " + string.Join(", ", GaspSuffixes));
 		}

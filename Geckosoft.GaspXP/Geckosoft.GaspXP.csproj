@@ -115,11 +115,9 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="RegisterGaspXP.reg" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="gacutil.exe" />
-    <None Include="LICENSE.txt" />
     <Content Include="Report.html" />
     <Content Include="Vendor\HtmlAgilityPack\AUTHORS.TXT" />
     <Content Include="Vendor\VsMultipleFileGenerator\AUTHORS.TXT" />

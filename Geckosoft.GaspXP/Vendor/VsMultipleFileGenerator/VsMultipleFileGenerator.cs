@@ -133,18 +133,18 @@ namespace Geckosoft.GaspXP.Vendor.VsMultipleFileGenerator
 					childItem.Delete();
 			}
 
-            // now we can start our work, iterate across all the 'elements' in our source file 
+            // now we can start our work, iterate across all the 'elements' in our source file )
 			foreach (var element in this)
 			{
 				// obtain a name for this target file
-				string fileName = GetFileName(element);
+				var fileName = GetFileName(element);
 				// add it to the tracking cache
 				newFileNames.Add(fileName);
 				// fully qualify the file on the filesystem
-				string strFile =
-					Path.Combine(wszInputFilePath.Substring(0, wszInputFilePath.LastIndexOf(Path.DirectorySeparatorChar)), fileName);
+				var strFile = Path.Combine(wszInputFilePath.Substring(0, wszInputFilePath.LastIndexOf(Path.DirectorySeparatorChar)), fileName);
+				
 				// create the file
-				FileStream fs = File.Create(strFile);
+				var fs = File.Create(strFile);
 
 				try
 				{
@@ -158,7 +158,7 @@ namespace Geckosoft.GaspXP.Vendor.VsMultipleFileGenerator
 
 					// add the newly generated file to the solution, as a child of the source file...
 					var itm = item.ProjectItems.AddFromFile(strFile);
-
+					
 					/*
 					 * Here you may wish to perform some addition logic
 					 * such as, setting a custom tool for the target file if it
@@ -181,7 +181,11 @@ namespace Geckosoft.GaspXP.Vendor.VsMultipleFileGenerator
 					fs.Close();
 					if (File.Exists(strFile))
 						File.Delete(strFile);
+					break;
 				}
+
+				// Do NOT embed the aspx/asxc/master as content or do not attempt to build it (prevents publishing .gasp. files @ publish)
+				item.Properties.Item("BuildAction").Value = 0; 
 			}
 
         	// generate our summary content for our 'single' file
