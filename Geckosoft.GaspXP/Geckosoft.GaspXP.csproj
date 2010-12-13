@@ -1,0 +1,145 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F9AD6CFA-6ACE-47F5-BC45-5345D97B2820}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Geckosoft.GaspXP</RootNamespace>
+    <AssemblyName>Geckosoft.GaspXP</AssemblyName>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>gaspxp.snk</AssemblyOriginatorKeyFile>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\PublicAssemblies\EnvDTE.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.OLE.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TextTemplating.VSHost, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="GaspXParser.cs" />
+    <Compile Include="GaspProcessor.cs" />
+    <Compile Include="Vendor\HtmlAgilityPack\crc32.cs" />
+    <Compile Include="Vendor\HtmlAgilityPack\EncodingFoundException.cs" />
+    <Compile Include="Vendor\HtmlAgilityPack\HtmlAttribute.cs" />
+    <Compile Include="Vendor\HtmlAgilityPack\HtmlAttributeCollection.cs" />
+    <Compile Include="Vendor\HtmlAgilityPack\HtmlCmdLine.cs" />
+    <Compile Include="Vendor\HtmlAgilityPack\HtmlCommentNode.cs" />
+    <Compile Include="Vendor\HtmlAgilityPack\HtmlConsoleListener.cs" />
+    <Compile Include="Vendor\HtmlAgilityPack\HtmlDocument.cs" />
+    <Compile Include="Vendor\HtmlAgilityPack\HtmlElementFlag.cs" />
+    <Compile Include="Vendor\HtmlAgilityPack\HtmlEntity.cs" />
+    <Compile Include="Vendor\HtmlAgilityPack\HtmlNameTable.cs" />
+    <Compile Include="Vendor\HtmlAgilityPack\HtmlNode.cs" />
+    <Compile Include="Vendor\HtmlAgilityPack\HtmlNodeCollection.cs" />
+    <Compile Include="Vendor\HtmlAgilityPack\HtmlNodeNavigator.cs" />
+    <Compile Include="Vendor\HtmlAgilityPack\HtmlNodeType.cs" />
+    <Compile Include="Vendor\HtmlAgilityPack\HtmlParseError.cs" />
+    <Compile Include="Vendor\HtmlAgilityPack\HtmlParseErrorCode.cs" />
+    <Compile Include="Vendor\HtmlAgilityPack\HtmlTextNode.cs" />
+    <Compile Include="Vendor\HtmlAgilityPack\HtmlWeb.cs" />
+    <Compile Include="Vendor\HtmlAgilityPack\HtmlWebException.cs" />
+    <Compile Include="Vendor\HtmlAgilityPack\IOLibrary.cs" />
+    <Compile Include="Vendor\HtmlAgilityPack\MixedCodeDocument.cs" />
+    <Compile Include="Vendor\HtmlAgilityPack\MixedCodeDocumentCodeFragment.cs" />
+    <Compile Include="Vendor\HtmlAgilityPack\MixedCodeDocumentFragment.cs" />
+    <Compile Include="Vendor\HtmlAgilityPack\MixedCodeDocumentFragmentList.cs" />
+    <Compile Include="Vendor\HtmlAgilityPack\MixedCodeDocumentFragmentType.cs" />
+    <Compile Include="Vendor\HtmlAgilityPack\MixedCodeDocumentTextFragment.cs" />
+    <Compile Include="Vendor\HtmlAgilityPack\NameValuePair.cs" />
+    <Compile Include="Vendor\HtmlAgilityPack\NameValuePairList.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Vendor\VsMultipleFileGenerator\VsHelper.cs" />
+    <Compile Include="Vendor\VsMultipleFileGenerator\VsMultipleFileGenerator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="gaspxp.snk" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="RegisterGaspXP.reg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="gacutil.exe" />
+    <None Include="LICENSE.txt" />
+    <Content Include="Report.html" />
+    <Content Include="Vendor\HtmlAgilityPack\AUTHORS.TXT" />
+    <Content Include="Vendor\VsMultipleFileGenerator\AUTHORS.TXT" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PreBuildEvent>"$(ProjectDir)\gacutil.exe" /u $(TargetName)</PreBuildEvent>
+    <PostBuildEvent>"$(ProjectDir)\gacutil.exe" /i $(TargetPath)</PostBuildEvent>
+  </PropertyGroup>
+</Project>

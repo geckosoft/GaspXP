@@ -1,0 +1,3 @@
+﻿VsMultipleFileGenerator, original author Adam Langley, modified for GaspXP by Tim Mylemans
+
+Original source / article: http://www.codeproject.com/KB/cs/VsMultipleFileGenerator.aspx
