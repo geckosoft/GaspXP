@@ -1870,7 +1870,11 @@ namespace Geckosoft.GaspXP.Vendor.HtmlAgilityPack
                 else
                 {
                     name = att.Name;
-                }
+				}
+
+				// Should fix attribute cases being modified with OptionOutputOriginalCase being true - Gecko
+				if (_ownerdocument.OptionOutputOriginalCase)
+					name = att.OriginalName;
 
                 if (att.Name.Length >= 4)
                 {
