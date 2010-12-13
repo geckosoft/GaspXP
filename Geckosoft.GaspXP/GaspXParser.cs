@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Xml;
 using Geckosoft.GaspXP.Vendor.HtmlAgilityPack;
 
 namespace Geckosoft.GaspXP
@@ -10,11 +11,11 @@ namespace Geckosoft.GaspXP
 		public readonly Regex AspTagsRegex = new Regex(@"<%(@|=|\$)?([^\0]+?)%>");
 		public readonly Regex AspTagsStripRegex = new Regex(@"<%[@|=|\$]?((?!<%).)*%>"); //<%[@|=|\$]?[^>]*%>"); // <%[@|=|\$]?[^\0]+?%>"); // <%[@|=|\$]?[^\0]*%>
 		public readonly Regex GaspXPContentRegex = new Regex(@"<!-- GaspXP\[\[(\d+)\]\] -->");
-		public readonly Regex GaspXPConditionRegex = new Regex(@"(<condition\b[^>]*>(.*?)</condition>)");
-		public readonly Regex GaspXPForeachRegex = new Regex(@"(<foreach\b[^>]*>(.*?)</foreach>)");
+		public readonly Regex GaspXPConditionRegex = new Regex(@"(<gasp:condition\b[^>]*>(.*?)</gasp:condition>)");
+		public readonly Regex GaspXPForeachRegex = new Regex(@"(<gasp:foreach\b[^>]*>(.*?)</gasp:foreach>)");
 		public readonly Regex AttributesRegex = new Regex(@"(\S+)=[""']?((?:.(?![""']?\s+(?:\S+)=|[>""']))+.)[""']?");
-
 		public Dictionary<int, string> AspContent { get; protected set; }
+		public readonly XmlNamespaceManager GaspNamespace = new XmlNamespaceManager(new NameTable());
 
 		public MatchCollection AspTags { get; protected set; }
 		public MatchCollection GaspConditions { get; protected set; }
@@ -26,6 +27,7 @@ namespace Geckosoft.GaspXP
 		protected GaspXParser(string data)
 		{
 			Raw = data;
+			GaspNamespace.AddNamespace("gasp", "urn:gaspxp.codeplex.com");
 		}
 
 		private int contentHolderId;
@@ -65,6 +67,7 @@ namespace Geckosoft.GaspXP
 
 			// todo OptionOutputOriginalCase => doesnt seem to work for attributes! (not all?)
 			doc.LoadHtml(Processed);
+			string debug = "";
 
 			// Loop through all conditions
 			foreach (Match condition in GaspConditions)
@@ -76,11 +79,28 @@ namespace Geckosoft.GaspXP
 						var elementId = tag.Groups[2].Value;
 
 						// find the element
+						foreach (var n in doc.DocumentNode.SelectNodes("//*", GaspNamespace))
+						{
+							bool found = false;
+							foreach (var a in n.Attributes)
+							{
+								if (a.OriginalName != "gasp:id" || a.Value != elementId)
+									continue;
+
+								found = true;
+								break;
+							}
+							if (!found)
+								continue;
+
+							n.ParentNode.InsertBefore(HtmlNode.CreateNode("<% if(" + condition.Groups[2].Value + "){%>"), n);
+							n.ParentNode.InsertAfter(HtmlNode.CreateNode("<% } %>"), n);
+						}
+
 						foreach (var n in doc.DocumentNode.SelectNodes("id('" + elementId + "')"))
 						{
 							n.ParentNode.InsertBefore(HtmlNode.CreateNode("<% if(" + condition.Groups[2].Value + "){%>"), n);
 							n.ParentNode.InsertAfter(HtmlNode.CreateNode("<% } %>"), n);
-							break;
 						}
 					}
 				}
@@ -105,7 +125,26 @@ namespace Geckosoft.GaspXP
 							}
 						}
 
-						// find the element
+						// find the element (first search on 'gaspid')
+						// allows to be applied to multiple elements at once!
+						foreach (var n in doc.DocumentNode.SelectNodes("//*", GaspNamespace))
+						{
+							bool found = false;
+							foreach (var a in n.Attributes)
+							{
+								if (a.OriginalName != "gasp:id" || a.Value != elementId)
+									continue;
+
+								found = true;
+								break;
+							}
+							if (!found)
+								continue;
+
+							n.ParentNode.InsertBefore(HtmlNode.CreateNode("<% if(" + condition.Groups[2].Value + "){%>"), n);
+							n.ParentNode.InsertAfter(HtmlNode.CreateNode("<% } %>"), n);
+						}
+
 						foreach (var n in doc.DocumentNode.SelectNodes("id('" + elementId + "')"))
 						{
 							n.InsertBefore(HtmlNode.CreateNode("<% foreach( var " + key + " in (" + condition.Groups[2].Value + ")){%>"), n.FirstChild);
@@ -117,6 +156,12 @@ namespace Geckosoft.GaspXP
 				}
 			}
 
+			// cleanup gaspid's
+			foreach (var n in new List<HtmlNode>(doc.DocumentNode.SelectNodes("//*", GaspNamespace)))
+			{
+				n.Attributes.Remove("gasp:id");
+			}
+			
 			/* return the asp code back into the doc */
 			Processed = GaspXPContentRegex.Replace(doc.DocumentNode.OuterHtml,m => AspContent[int.Parse(m.Groups[1].Value)]);
 		}

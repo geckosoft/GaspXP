@@ -1411,28 +1411,52 @@ namespace Geckosoft.GaspXP.Vendor.HtmlAgilityPack
             return newChild;
         }
 
-        /// <summary>
-        /// Selects a list of nodes matching the <see cref="XPath"/> expression.
-        /// </summary>
-        /// <param name="xpath">The XPath expression.</param>
-        /// <returns>An <see cref="HtmlNodeCollection"/> containing a collection of nodes matching the <see cref="XPath"/> query, or <c>null</c> if no node matched the XPath expression.</returns>
-        public HtmlNodeCollection SelectNodes(string xpath)
-        {
-            HtmlNodeCollection list = new HtmlNodeCollection(null);
+		/// <summary>
+		/// Selects a list of nodes matching the <see cref="XPath"/> expression.
+		/// </summary>
+		/// <param name="xpath">The XPath expression.</param>
+		/// <returns>An <see cref="HtmlNodeCollection"/> containing a collection of nodes matching the <see cref="XPath"/> query</returns>
+		public HtmlNodeCollection SelectNodes(string xpath)
+		{
+			HtmlNodeCollection list = new HtmlNodeCollection(null);
 
-            HtmlNodeNavigator nav = new HtmlNodeNavigator(_ownerdocument, this);
-            XPathNodeIterator it = nav.Select(xpath);
-            while (it.MoveNext())
-            {
-                HtmlNodeNavigator n = (HtmlNodeNavigator) it.Current;
-                list.Add(n.CurrentNode);
-            }
-            if (list.Count == 0)
-            {
-                return null;
-            }
-            return list;
-        }
+			HtmlNodeNavigator nav = new HtmlNodeNavigator(_ownerdocument, this);
+
+			XPathNodeIterator it = nav.Select(xpath);
+			while (it.MoveNext())
+			{
+				HtmlNodeNavigator n = (HtmlNodeNavigator)it.Current;
+				list.Add(n.CurrentNode);
+			}
+			if (list.Count == 0)
+			{
+				return list;
+			}
+			return list;
+		}
+
+		/// <summary>
+		/// Selects a list of nodes matching the <see cref="XPath"/> expression.
+		/// </summary>
+		/// <param name="xpath">The XPath expression.</param>
+		/// <returns>An <see cref="HtmlNodeCollection"/> containing a collection of nodes matching the <see cref="XPath"/> query</returns>
+		public HtmlNodeCollection SelectNodes(string xpath, XmlNamespaceManager xmgr)
+		{
+			HtmlNodeCollection list = new HtmlNodeCollection(null);
+
+			HtmlNodeNavigator nav = new HtmlNodeNavigator(_ownerdocument, this);
+			XPathNodeIterator it = nav.Select(xpath, xmgr);
+			while (it.MoveNext())
+			{
+				HtmlNodeNavigator n = (HtmlNodeNavigator)it.Current;
+				list.Add(n.CurrentNode);
+			}
+			if (list.Count == 0)
+			{
+				return list;
+			}
+			return list;
+		}
 
         /// <summary>
         /// Selects the first XmlNode that matches the XPath expression.
